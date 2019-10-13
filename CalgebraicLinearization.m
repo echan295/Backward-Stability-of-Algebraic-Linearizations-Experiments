@@ -1,0 +1,20 @@
+function [C0, C1, X, Y] = CalgebraicLinearization(a0, a1, ax, ay, b0, b1, bx, by, c, d)
+    [nA, ~] = size(ax);
+    [nB, ~] = size(bx);
+    [sizeA, ~] = size(a0);
+    [sizeB, ~] = size(b0);
+    C0 = zeros(sizeA+sizeB+nA, sizeA+sizeB+nB);
+    C0(1:sizeA, 1:sizeA) = a0;
+    C0(end-sizeB+1:end, end-sizeB+1:end) = b0;
+    C0(sizeA+1:sizeA+nA, 1:sizeA) = -ax; 
+    C0(end-sizeB+1:end, sizeA+1:sizeA+nB) = -by;
+    C0(1:sizeA, end-sizeB+1:end) = -ay*c*bx;
+    C1 = zeros(sizeA+sizeB+nA, sizeA+sizeB+nB);
+    C1(1:sizeA, 1:sizeA) = a1;
+    C1(end-sizeB+1:end, end-sizeB+1:end) = b1;
+    C1(sizeA+1:sizeA+nA, sizeA+1:sizeA+nB) = d;
+    X = zeros(nB, sizeA+sizeB+nB);
+    X(:, end-sizeB+1:end) = bx;
+    Y = zeros(sizeA+sizeB+nA, nA);
+    Y(1:sizeA,:) = ay; 
+end
